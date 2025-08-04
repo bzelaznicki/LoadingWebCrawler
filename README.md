@@ -1,25 +1,27 @@
 # LoadingWebCrawler
 
-A **fast Deno + Playwright** crawler that executes JavaScript, respects `robots.txt`, and shows real‑time stats.
+A **fast Deno + Playwright** crawler for JavaScript‑rendered sites with real‑time stats and `robots.txt` support.
 
 ## Quick Start
-
-Clone & run:
 ```bash
 git clone https://github.com/bzelaznicki/LoadingWebCrawler.git
 cd LoadingWebCrawler
 deno task playwright:install
-deno run --allow-all main.ts https://example.com --concurrency 10 --rps 2 --fast
+deno task start https://example.com --concurrency 10 --rps 2 --fast
 ```
 
-## CLI Options
+## Run Modes
+- **start**: `deno task start <url>` – Production crawl  
+- **dev**: `deno task dev <url>` – Dev mode with file watching  
+- **manual**: `deno run --allow-all main.ts <url>` – Direct run  
 
-- `--concurrency N` – Number of parallel workers (default: 5)
-- `--rps N` – Requests per second per worker (default: 1)
-- `--fast` – Ignore crawl‑delay from robots.txt
-- `--ignore-robots` – Completely ignore robots.txt rules
+## Options
+- `--concurrency N` – Workers (default: 5)  
+- `--rps N` – Requests/sec per worker (default: 1)  
+- `--fast` – Ignore crawl‑delay  
+- `--ignore-robots` – Ignore robots.txt  
 
-**Features:** Concurrent crawling, rate‑limiting, JS rendering, resource blocking, same‑origin filtering.  
-**Output:** Live stats + JSON of discovered URLs.  
+**Features:** Concurrent crawling, JS rendering, rate‑limiting, resource blocking, same‑origin filtering.  
+**Output:** Live stats + JSON URLs.  
 
 [MIT](LICENSE)
