@@ -8,8 +8,11 @@ export async function crawlLinks(
     stats: { visited: number; queued: number; perSecond: number },
   ) => void,
   fastMode = false,
+  ignoreRobots = false,
 ) {
-  const { disallowed, crawlDelay } = await getRobotsConfig(startUrl);
+  const { disallowed, crawlDelay } = ignoreRobots
+    ? { disallowed: [], crawlDelay: 0 }
+    : await getRobotsConfig(startUrl);
   const visited = new Set<string>();
   const queue: string[] = [startUrl];
   const limiter = createLimiter(maxRPS * concurrency);
@@ -18,6 +21,7 @@ export async function crawlLinks(
   const startTime = Date.now();
 
   function isAllowed(url: string) {
+    if (ignoreRobots) return true;
     const path = new URL(url).pathname;
     return !disallowed.some((rule) => path.startsWith(rule));
   }
